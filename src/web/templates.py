@@ -2,9 +2,8 @@
 import flet as ft
 from exceptions.web import PageNotFound
 
-class Templates(ft.View):
+class TemplatesManager():
     def __init__(self):
-        super().__init__()
         self.templates = []
 
     def __str__(self):
