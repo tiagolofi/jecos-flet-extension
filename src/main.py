@@ -15,9 +15,6 @@ def main(page: ft.Page):
 
     page.title = 'Demo App' 
 
-    page.horizontal_alignment = 'CENTER'
-    page.vertical_alignment = 'CENTER'
-
     templates = TemplatesManager()
     templates.add(ft.View('/', [Login(page)])) 
     templates.add(ft.View('/notfound', [NotFound()]))
