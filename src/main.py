@@ -1,8 +1,8 @@
 
 import flet as ft
 
-from web.templates import TemplatesManager
-from exceptions.web import PageNotFound
+from web import TemplatesManager
+from exceptions import PageNotFound
 
 from sekai import NotFound, Login
 
@@ -13,11 +13,17 @@ log = logging.getLogger(__name__)
 
 def main(page: ft.Page):
 
-    page.title = 'Demo App' 
+    page.title = 'Demo App'
+
+    login = ft.View('/', [Login(page)])
+    login.horizontal_alignment = 'CENTER'
+    login.vertical_alignment = 'CENTER'
+
+    not_found = ft.View('/notfound', [NotFound(page)])
 
     templates = TemplatesManager()
-    templates.add(ft.View('/', [Login(page)])) 
-    templates.add(ft.View('/notfound', [NotFound()]))
+    templates.add(login) 
+    templates.add(not_found)
 
     def route_change(e):
         page.views.clear()
@@ -30,7 +36,7 @@ def main(page: ft.Page):
             log.error(error)
             view = templates.navigate('/error')
         page.views.append(view)
-        page.go(view.route)
+        page.go(view.route) 
         page.update()
 
     page.on_route_change = route_change
