@@ -34,7 +34,16 @@ class Login(ft.SafeArea):
     def on_submit_click(self, e):
         self.page.client_storage.set(
             self.user.value, [self.pwd.value, self.page.client_ip, self.page.client_user_agent])
+        if self.user.value == 'admin':
+            if self.pwd.value != "" or self.pwd.value == '1234':
+                self.page.go('/home')
+            else:
+                self.pwd.error_text = 'invalid credentials'
+        else:
+            self.pwd.error_text = 'invalid credentials'    
+
         self.page.update()
+
 
 
 

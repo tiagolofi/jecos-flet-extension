@@ -4,7 +4,7 @@ import flet as ft
 from web import TemplatesManager
 from exceptions import PageNotFound
 
-from sekai import NotFound, Login
+from sekai import NotFound, Login, Home
 
 import logging
 
@@ -19,14 +19,16 @@ def main(page: ft.Page):
     login.horizontal_alignment = 'CENTER'
     login.vertical_alignment = 'CENTER'
 
+    home = ft.View('/home', [Home(page)])
     not_found = ft.View('/notfound', [NotFound(page)])
 
     templates = TemplatesManager()
-    templates.add(login) 
+    templates.add(login)
+    templates.add(home)
     templates.add(not_found)
 
     def route_change(e):
-        page.views.clear()
+        page.views.clear() 
         try: 
             view = templates.navigate(page.route)
         except PageNotFound as error:
