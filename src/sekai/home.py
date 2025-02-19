@@ -40,8 +40,6 @@ class Home(ft.Container):
             alignment=ft.MainAxisAlignment.CENTER
         )
         user_info = json.loads(self.json_data)
-        print(user_info.get('user'))
-        print(self.now())
         duration = user_info.get('duration')
         if self.now() > int(duration):
             self.page.client_storage.remove('user_info')
