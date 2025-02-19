@@ -1,6 +1,13 @@
 
 import flet as ft
+from dotenv import load_dotenv
+import os
+from datetime import datetime
+from flet.security import encrypt
 
+load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY')
 class Login(ft.SafeArea):
     def __init__(self, page: ft.Page):
         self.page = page
@@ -32,15 +39,21 @@ class Login(ft.SafeArea):
         )
 
     def on_submit_click(self, e):
-        self.page.client_storage.set(
-            self.user.value, [self.pwd.value, self.page.client_ip, self.page.client_user_agent])
+        user_info = '{' + f'''
+            "user": "{self.user.value}", 
+            "ip": "{self.page.client_ip}",
+            "agent": "{self.page.client_user_agent}",
+            "duration": "{int(datetime.now().timestamp()) + 60}"
+        ''' + '}'
         if self.user.value == 'admin':
-            if self.pwd.value != "" or self.pwd.value == '1234':
+            if self.pwd.value != "" and self.pwd.value == '1234':
+                self.page.client_storage.set('user_info', encrypt(user_info, SECRET_KEY))
                 self.page.go('/home')
+                self.page.update()
             else:
                 self.pwd.error_text = 'invalid credentials'
         else:
-            self.pwd.error_text = 'invalid credentials'    
+            self.pwd.error_text = 'invalid credentials'
 
         self.page.update()
 

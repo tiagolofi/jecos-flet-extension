@@ -29,7 +29,7 @@ def main(page: ft.Page):
 
     def route_change(e):
         page.views.clear() 
-        try: 
+        try:
             view = templates.navigate(page.route)
         except PageNotFound as error:
             log.error(error)
