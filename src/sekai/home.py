@@ -44,6 +44,8 @@ class Home(ft.Container):
         print(self.now())
         duration = user_info.get('duration')
         if self.now() > int(duration):
+            self.page.client_storage.remove('user_info')
             self.page.go('/')
+            self.page.update()
         return super().build()
 

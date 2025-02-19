@@ -38,7 +38,7 @@ def main(page: ft.Page):
             log.error(error)
             view = templates.navigate('/error')
         page.views.append(view)
-        page.go(view.route) 
+        page.go(view.route)
         page.update()
 
     page.on_route_change = route_change
