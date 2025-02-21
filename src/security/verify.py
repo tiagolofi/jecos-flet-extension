@@ -33,6 +33,9 @@ class VerifyToken():
         self.json_data = decrypt(self.token, SECRET_KEY)
         self.user_info = json.loads(self.json_data)
         duration = self.user_info.get('duration')
-        if self.now() > int(duration):
-            page.client_storage.remove('user_info')
-            page.go('/')
+        try:
+            if self.now() > int(duration):
+                page.client_storage.remove('user_info')
+                page.go('/')
+        except Exception as e:
+            log.error(e)

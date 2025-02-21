@@ -53,7 +53,7 @@ def main(page: ft.Page):
     app.init()
 
     def route_change(e: ft.RouteChangeEvent):
-        page.views.clear() 
+        page.views.clear()
         try:
             if page.route == '/':
                 page.go('/login')
