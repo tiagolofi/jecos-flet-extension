@@ -28,10 +28,10 @@ class Home(ft.Container, VerifyToken):
         self.get_token(self.page)
         return super().build()
 
-    def validate(self, e: ft.RouteChangeEvent):
+    def before_update(self):
         self.validate_token(self.page)
-        self.page.update()
+        return super().before_update()
 
-    def go_tables(self, e: ft.RouteChangeEvent):
+    def go_tables(self, e):
         self.page.go('/tables')
         self.page.update()

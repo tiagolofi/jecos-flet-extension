@@ -36,4 +36,3 @@ class VerifyToken():
         if self.now() > int(duration):
             page.client_storage.remove('user_info')
             page.go('/')
-            page.update()

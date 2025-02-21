@@ -53,14 +53,14 @@ def main(page: ft.Page):
     app.init()
 
     def route_change(e: ft.RouteChangeEvent):
-        page.views.clear()
+        page.views.clear() 
         try:
             if page.route == '/':
                 page.go('/login')
-            view = app.nav(page.route)
+            view = app.nav(page.route) 
         except PageNotFoundError as error:
             log.error(error.message)
-            view = app.nav('/notfound') 
+            view = app.nav('/notfound')
 
         page.views.append(view)
         page.go(view.route)
