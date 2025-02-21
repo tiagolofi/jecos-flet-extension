@@ -1,6 +1,8 @@
 
 import flet as ft
 
+from security import VerifyToken
+
 class NotFound(ft.Container):
     def __init__(self, page: ft.Page):
         self.page = page
@@ -14,11 +16,8 @@ class NotFound(ft.Container):
         super().__init__(
             content=self.content,
             expand=True,
-            alignment=ft.alignment.center,
-            margin=10,
-            padding=10,
             bgcolor=ft.Colors.RED,
-            border_radius=10
+            alignment=ft.alignment.center
         )
 
     def on_click_back_home(self, e):

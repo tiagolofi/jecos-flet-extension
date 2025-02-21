@@ -1,1 +1,1 @@
-from exceptions.web import PageNotFound
+from exceptions.web import PageNotFoundError

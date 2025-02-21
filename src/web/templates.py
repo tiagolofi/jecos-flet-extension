@@ -1,16 +1,13 @@
 
 import flet as ft
-from exceptions.web import PageNotFound
+from exceptions import PageNotFoundError
 
-class TemplatesManager():
+class Templates():
     def __init__(self):
-        self.templates = []
-
-    def __str__(self):
-        return f'Templates {self.templates}'
+        self.views = [] 
 
     def add(self, view: ft.View) -> None:
-        self.templates.append(view)
+        self.views.append(view)
 
     def navigate(self, route: str) -> ft.View:
         '''
@@ -21,7 +18,7 @@ class TemplatesManager():
         raises:
             PageNotFound -- If route is not found
         '''
-        for i in self.templates:
+        for i in self.views:
             if i.route == route:
                 return i
-        raise PageNotFound(f'Page not found: {route}')
+        raise PageNotFoundError(f'Page not found: {route}')

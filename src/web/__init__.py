@@ -1,1 +1,2 @@
-from web.templates import TemplatesManager
+from web.templates import Templates
+from web.panel import Panel

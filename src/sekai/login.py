@@ -1,14 +1,9 @@
 
 import flet as ft
-from dotenv import load_dotenv
-import os
-from datetime import datetime
-from flet.security import encrypt
 
-load_dotenv()
+from security import Jwt
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-class Login(ft.SafeArea):
+class Login(ft.Container):
     def __init__(self, page: ft.Page):
         self.page = page
         self.page.title = 'Login'
@@ -17,6 +12,9 @@ class Login(ft.SafeArea):
         self.user = ft.TextField('', label='username', hint_text='type your username')
         self.pwd = ft.TextField('', label='password', password=True, can_reveal_password=True)
         self.submit = ft.ElevatedButton('login', icon=ft.Icons.LOGIN, on_click=self.on_submit_click)
+        
+        self.jwt = Jwt(self.page)
+        
         self.content = ft.Container(
             content=ft.Column(
                 [
@@ -35,22 +33,13 @@ class Login(ft.SafeArea):
         )
 
         super().__init__(
-            content=self.content,
+            content=self.content
         )
 
-    def now(self):
-        return int(datetime.now().timestamp()) + 60
-
     def on_submit_click(self, e):
-        user_info = '{' + f'''
-            "user": "{self.user.value}", 
-            "ip": "{self.page.client_ip}",
-            "agent": "{self.page.client_user_agent}",
-            "duration": "{self.now()}"
-        ''' + '}'
         if self.user.value == 'admin':
             if self.pwd.value != "" and self.pwd.value == '1234':
-                self.page.client_storage.set('user_info', encrypt(user_info, SECRET_KEY))
+                self.jwt.add_token_local_storage(self.user.value)
                 self.page.go('/home')
             else:
                 self.pwd.error_text = 'invalid credentials'
@@ -58,7 +47,3 @@ class Login(ft.SafeArea):
             self.pwd.error_text = 'invalid credentials'
 
         self.page.update()
-
-
-
-

@@ -3,14 +3,14 @@ import flet as ft
 
 from security import VerifyToken
 
-class Home(ft.Container, VerifyToken):
+class Tables(ft.Container, VerifyToken):
     def __init__(self, page: ft.Page):
         self.page = page
         self.content = ft.Container(
             ft.Column(
                 [
-                    ft.Text('Home', size = 40),
-                    ft.ElevatedButton('Go Tables', on_click=self.go_tables)
+                    ft.Text('Tables', size = 40),
+                    ft.ElevatedButton('Go Home', on_click=self.go_home)
                 ]
             ),
             alignment=ft.alignment.center,
@@ -32,6 +32,6 @@ class Home(ft.Container, VerifyToken):
         self.validate_token(self.page)
         self.page.update()
 
-    def go_tables(self, e: ft.RouteChangeEvent):
-        self.page.go('/tables')
+    def go_home(self, e: ft.RouteChangeEvent):
+        self.page.go('/home')
         self.page.update()
