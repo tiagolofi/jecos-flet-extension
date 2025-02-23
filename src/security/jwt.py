@@ -2,6 +2,8 @@
 import flet as ft
 from flet.security import encrypt
 
+from logger import log
+
 import os
 from datetime import datetime
 
@@ -16,14 +18,16 @@ class Jwt():
     def __init__(self, page: ft.Page):
         self.page = page
 
-    def now(self):
-        return int(datetime.now().timestamp()) + int(EXPIRATION_TIME)
+    def duration(self):
+        duration = int(datetime.now().timestamp()) + int(EXPIRATION_TIME)
+        log.info('duration: ' + str(duration))
+        return duration
 
     def add_token_local_storage(self, user: str):
         user_info = '{' + f'''
             "user": "{user}",
             "ip": "{self.page.client_ip}",
             "agent": "{self.page.client_user_agent}",
-            "duration": "{self.now()}"
+            "duration": "{self.duration()}"
         ''' + '}'
         self.page.client_storage.set('user_info', encrypt(user_info, SECRET_KEY))
