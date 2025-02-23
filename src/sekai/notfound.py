@@ -6,6 +6,7 @@ from security import VerifyToken
 class NotFound(ft.Container):
     def __init__(self, page: ft.Page):
         self.page = page
+        self.page.title = 'Tables'
         self.content=ft.Column(
             [
                 ft.Text('Not Found 404', style=ft.TextStyle(size=50), text_align=ft.TextAlign.CENTER),
@@ -21,5 +22,5 @@ class NotFound(ft.Container):
         )
 
     def on_click_back_home(self, e):
-        self.page.go('/')
+        self.page.go('/home')
         self.page.update()

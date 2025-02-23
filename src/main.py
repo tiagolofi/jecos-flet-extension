@@ -2,22 +2,20 @@
 import flet as ft
 
 from web import Templates, Panel
-from exceptions import PageNotFoundError
+from exceptions import PageNotFoundError, TokenNoneError, AuthenticationError
 
 from sekai import NotFound, Login, Home, Tables
 
-import logging
+from logger import log
 
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
-
+LOGIN_URL = '/login'
 class App(Login):
     def __init__(self, page: ft.Page):
         self.page = page
         self.page.title = 'Demo App'
         self.page.adaptive = True
         
-        self.login = Panel('/login', Login(self.page))
+        self.login = Panel(LOGIN_URL, Login(self.page))
         self.login.view.horizontal_alignment = 'CENTER'
         self.login.view.vertical_alignment = 'CENTER'
 
@@ -25,7 +23,7 @@ class App(Login):
         self.not_found = Panel('/notfound', NotFound(self.page))
         self.tables = Panel('/tables', Tables(self.page))
 
-        self.templates = Templates() 
+        self.templates = Templates(page) 
         self.templates.add(self.login.get_view())
         self.templates.add(self.home.get_view())
         self.templates.add(self.not_found.get_view())
@@ -56,15 +54,21 @@ def main(page: ft.Page):
         page.views.clear()
         try:
             if page.route == '/':
-                page.go('/login')
-            view = app.nav(page.route) 
+                page.go(LOGIN_URL)
+            view = app.nav(page.route)
         except PageNotFoundError as error:
-            log.error(error.message)
             view = app.nav('/notfound')
+            log.error(error.message)
+        except TokenNoneError as error:
+            view = app.nav(LOGIN_URL)
+            log.error(error.message)
+        except AuthenticationError as error:
+            view = app.nav(LOGIN_URL)
+            log.error(error.message)
 
         page.views.append(view)
         page.go(view.route)
-        page.update() 
+        page.update()
 
     page.on_route_change = route_change
 

@@ -4,13 +4,12 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 
+from exceptions import TokenNoneError
+
 import flet as ft
 from flet.security import decrypt
 
-import logging
-
-logging.basicConfig(level=logging.INFO)
-log = logging.getLogger(__name__)
+from logger import log
 
 load_dotenv()
 
@@ -30,12 +29,16 @@ class VerifyToken():
             log.error(error)
 
     def validate_token(self, page: ft.Page):
-        self.json_data = decrypt(self.token, SECRET_KEY)
-        self.user_info = json.loads(self.json_data)
-        duration = self.user_info.get('duration')
-        try:
-            if self.now() > int(duration):
-                page.client_storage.remove('user_info')
-                page.go('/')
-        except Exception as e:
-            log.error(e)
+
+        if self.token is not None:
+            self.json_data = decrypt(self.token, SECRET_KEY)
+            self.user_info = json.loads(self.json_data)
+            duration = self.user_info.get('duration')
+
+            try:
+                if self.now() > int(duration):
+                    page.client_storage.remove('user_info')
+            except TimeoutError as error:
+                log.error(error)
+
+

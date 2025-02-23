@@ -2,10 +2,14 @@
 import flet as ft
 
 from security import VerifyToken
+from exceptions import TokenNoneError
+
+from logger import log
 
 class Tables(ft.Container, VerifyToken):
     def __init__(self, page: ft.Page):
         self.page = page
+        self.page.title = 'Tables'
         self.content = ft.Container(
             ft.Column(
                 [
@@ -33,5 +37,7 @@ class Tables(ft.Container, VerifyToken):
         return super().before_update()
 
     def go_home(self, e):
-        self.page.go('/home')
-        self.page.update()
+        try:
+            self.page.go('/home')
+        except AttributeError as error:
+            log.error(error)
