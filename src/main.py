@@ -19,6 +19,8 @@ class App(Login):
         self.page = page
         self.page.title = 'Demo App'
         self.page.adaptive = True
+        page.dark_theme = ft.Theme(color_scheme_seed=ft.Colors.BLUE)
+
         
         # sec components
         self.login = Panel(LOGIN_URL, Login(self.page), ('CENTER', 'CENTER'))
