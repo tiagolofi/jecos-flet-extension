@@ -24,10 +24,14 @@ class Templates():
         '''
 
         try:
-            if self.page.client_storage.get('user_info') is None and route != '/login':
-                raise TokenNoneError
+            has_token = self.page.client_storage.contains_key('user_info') 
         except TimeoutError as error:
             log.error(error)
+            has_token = True
+
+        if not has_token and route != '/login':
+            raise TokenNoneError
+       
 
         for i in self.views:
             if i.route == route:
