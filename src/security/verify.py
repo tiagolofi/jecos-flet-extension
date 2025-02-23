@@ -1,15 +1,14 @@
 
-import os
-import json
-from datetime import datetime
-from dotenv import load_dotenv
-
-from exceptions import TokenNoneError
-
 import flet as ft
 from flet.security import decrypt
 
 from logger import log
+
+import os
+import json
+from datetime import datetime
+
+from dotenv import load_dotenv
 
 load_dotenv()
 

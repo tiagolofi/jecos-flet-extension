@@ -41,6 +41,7 @@ class Login(ft.Container):
             if self.pwd.value != "" and self.pwd.value == '1234':
                 self.jwt.add_token_local_storage(self.user.value)
                 self.page.go('/home')
+                # TODO: implementar chamada para serviço de autenticação e autorização
             else:
                 self.pwd.error_text = 'invalid credentials'
         else:

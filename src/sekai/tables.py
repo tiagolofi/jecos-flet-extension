@@ -2,8 +2,6 @@
 import flet as ft
 
 from security import VerifyToken
-from exceptions import TokenNoneError
-
 from logger import log
 
 class Tables(ft.Container, VerifyToken):

@@ -1,7 +1,9 @@
 
 import flet as ft
+
 from exceptions import PageNotFoundError, TokenNoneError, AuthenticationError
 from logger import log
+
 class Templates():
     def __init__(self, page: ft.Page):
         self.views = [] 

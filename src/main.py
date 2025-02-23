@@ -3,10 +3,9 @@ import flet as ft
 
 from web import Templates, Panel
 from exceptions import PageNotFoundError, TokenNoneError, AuthenticationError
+from logger import log
 
 from sekai import NotFound, Login, Home, Tables
-
-from logger import log
 
 LOGIN_URL = '/login'
 class App(Login):
