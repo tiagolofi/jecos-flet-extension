@@ -7,7 +7,6 @@ from logger import log
 class Tables(ft.Container, VerifyToken):
     def __init__(self, page: ft.Page):
         self.page = page
-        self.page.title = 'Tables'
         self.content = ft.Container(
             ft.Column(
                 [

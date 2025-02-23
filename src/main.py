@@ -10,28 +10,30 @@ from sekai import Home, Tables
 from security import NotFound, Login
 
 LOGIN_URL = '/login'
+NOT_FOUND_URL = '/404notfound'
+
 class App(Login):
     def __init__(self, page: ft.Page):
+
+        # config page
         self.page = page
         self.page.title = 'Demo App'
         self.page.adaptive = True
         
-        self.login = Panel(LOGIN_URL, Login(self.page))
-        self.login.view.horizontal_alignment = 'CENTER'
-        self.login.view.vertical_alignment = 'CENTER'
-
+        # sec components
+        self.login = Panel(LOGIN_URL, Login(self.page), ('CENTER', 'CENTER'))
+        self.not_found = Panel(NOT_FOUND_URL, NotFound(self.page))
+        
+        # web components
         self.home = Panel('/home', Home(self.page))
-        self.not_found = Panel('/notfound', NotFound(self.page))
         self.tables = Panel('/tables', Tables(self.page))
 
+        # config templates
         self.templates = Templates(page) 
         self.templates.add(self.login.get_view())
         self.templates.add(self.home.get_view())
         self.templates.add(self.not_found.get_view())
         self.templates.add(self.tables.get_view()) 
-
-        self.token = None
-        self.user_info = None
 
         super().__init__(
             self.page
@@ -58,7 +60,7 @@ def main(page: ft.Page):
                 page.go(LOGIN_URL)
             view = app.nav(page.route)
         except PageNotFoundError as error:
-            view = app.nav('/notfound')
+            view = app.nav(NOT_FOUND_URL)
             log.error(error.message)
         except TokenNoneError as error:
             view = app.nav(LOGIN_URL)

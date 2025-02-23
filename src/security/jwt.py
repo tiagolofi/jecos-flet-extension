@@ -1,12 +1,11 @@
 
 import flet as ft
+from flet.security import encrypt
 
 import os
 from datetime import datetime
 
 from dotenv import load_dotenv
-
-from flet.security import encrypt
 
 load_dotenv()
 

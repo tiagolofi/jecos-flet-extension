@@ -3,10 +3,16 @@ import flet as ft
 
 from security import Jwt
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DEFAULT_HOME = os.getenv('DEFAULT_HOME')
+
 class Login(ft.Container):
     def __init__(self, page: ft.Page):
         self.page = page
-        self.page.title = 'Login'
         self.page.horizontal_alignment = 'CENTER'
         self.page.vertical_alignment = 'CENTER'
         self.user = ft.TextField('', label='username', hint_text='type your username')
@@ -40,7 +46,7 @@ class Login(ft.Container):
         if self.user.value == 'admin':
             if self.pwd.value != "" and self.pwd.value == '1234':
                 self.jwt.add_token_local_storage(self.user.value)
-                self.page.go('/home')
+                self.page.go(DEFAULT_HOME)
                 # TODO: implementar chamada para serviço de autenticação e autorização
             else:
                 self.pwd.error_text = 'invalid credentials'
@@ -52,7 +58,6 @@ class Login(ft.Container):
 class NotFound(ft.Container):
     def __init__(self, page: ft.Page):
         self.page = page
-        self.page.title = 'Tables'
         self.content=ft.Column(
             [
                 ft.Text('Not Found 404', style=ft.TextStyle(size=50), text_align=ft.TextAlign.CENTER),
@@ -68,5 +73,5 @@ class NotFound(ft.Container):
         )
 
     def on_click_back_home(self, e):
-        self.page.go('/home')
+        self.page.go(DEFAULT_HOME)
         self.page.update()
