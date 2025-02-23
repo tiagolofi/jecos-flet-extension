@@ -5,7 +5,9 @@ from web import Templates, Panel
 from exceptions import PageNotFoundError, TokenNoneError, AuthenticationError
 from logger import log
 
-from sekai import NotFound, Login, Home, Tables
+from sekai import Home, Tables
+
+from security import NotFound, Login
 
 LOGIN_URL = '/login'
 class App(Login):
