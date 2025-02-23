@@ -67,9 +67,6 @@ def main(page: ft.Page):
         except TokenNoneError as error:
             view = app.nav(LOGIN_URL)
             log.error(error.message)
-        except AuthenticationError as error:
-            view = app.nav(LOGIN_URL)
-            log.error(error.message)
 
         page.views.append(view)
         page.go(view.route)

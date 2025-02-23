@@ -28,7 +28,6 @@ class Templates():
                 raise TokenNoneError
         except TimeoutError as error:
             log.error(error)
-            raise AuthenticationError
 
         for i in self.views:
             if i.route == route:
