@@ -12,7 +12,7 @@ from security import NotFound, Login
 LOGIN_URL = '/login'
 NOT_FOUND_URL = '/404notfound'
 
-class App(Login):
+class App(ft.SafeArea):
     def __init__(self, page: ft.Page):
 
         # config page
@@ -21,7 +21,6 @@ class App(Login):
         self.page.adaptive = True
         page.dark_theme = ft.Theme(color_scheme_seed=ft.Colors.BLUE)
 
-        
         # sec components
         self.login = Panel(LOGIN_URL, Login(self.page), ('CENTER', 'CENTER'))
         self.not_found = Panel(NOT_FOUND_URL, NotFound(self.page))
@@ -38,7 +37,7 @@ class App(Login):
         self.templates.add(self.tables.get_view()) 
 
         super().__init__(
-            self.page
+            content=ft.View('/', [])
         )
 
     def init(self):

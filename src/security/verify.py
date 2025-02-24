@@ -36,7 +36,6 @@ class VerifyToken():
 
             try:
                 if self.now() > int(duration):
-                    log.info(self.now())
                     page.client_storage.remove('user_info')
             except TimeoutError as error:
                 log.error(error)

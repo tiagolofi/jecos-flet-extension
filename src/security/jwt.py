@@ -20,7 +20,6 @@ class Jwt():
 
     def duration(self):
         duration = int(datetime.now().timestamp()) + int(EXPIRATION_TIME)
-        log.info('duration: ' + str(duration))
         return duration
 
     def add_token_local_storage(self, user: str):
