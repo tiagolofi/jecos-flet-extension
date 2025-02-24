@@ -1,7 +1,7 @@
 
 import flet as ft
 
-from exceptions import PageNotFoundError, TokenNoneError, AuthenticationError
+from exceptions import PageNotFoundError, TokenNoneError
 from logger import log
 
 class Templates():
@@ -32,7 +32,6 @@ class Templates():
         if not has_token and route != '/login':
             raise TokenNoneError
        
-
         for i in self.views:
             if i.route == route:
                 return i

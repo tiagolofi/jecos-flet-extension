@@ -2,7 +2,7 @@
 import flet as ft
 
 from web import Templates, Panel
-from exceptions import PageNotFoundError, TokenNoneError, AuthenticationError
+from exceptions import PageNotFoundError, TokenNoneError
 from logger import log
 
 from sekai import Home, Tables

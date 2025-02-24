@@ -1,1 +1,1 @@
-from exceptions.web import PageNotFoundError, TokenNoneError, AuthenticationError
+from exceptions.web import PageNotFoundError, TokenNoneError
