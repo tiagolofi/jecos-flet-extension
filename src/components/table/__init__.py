@@ -1,0 +1,1 @@
+from components.table.table import Table

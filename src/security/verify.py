@@ -14,20 +14,23 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-class VerifyToken():
-    def __init__(self):
+class VerifyToken(ft.Row):
+    def __init__(self, page: ft.Page):
         self.token = None
+        self.page = page
+
+        super().__init__()
 
     def now(self):
         return int(datetime.now().timestamp())
 
-    def get_token(self, page: ft.Page):
+    def get_token(self):
         try:
-            self.token = page.client_storage.get('user_info')
+            self.token = self.page.client_storage.get('user_info')
         except TimeoutError as error:
             log.error(error)
 
-    def validate_token(self, page: ft.Page):
+    def validate_token(self):
 
         if self.token is not None:
             self.json_data = decrypt(self.token, SECRET_KEY)
@@ -36,8 +39,15 @@ class VerifyToken():
 
             try:
                 if self.now() > int(duration):
-                    page.client_storage.remove('user_info')
+                    self.page.client_storage.remove('user_info')
             except TimeoutError as error:
                 log.error(error)
 
+    def build(self):
+        self.get_token()
+        return super().build()
+    
+    def before_update(self):
+        self.validate_token()
+        return super().before_update()
 

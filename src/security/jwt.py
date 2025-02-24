@@ -14,9 +14,10 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 EXPIRATION_TIME = os.getenv('EXPIRATION_TIME')
 
-class Jwt():
+class Jwt(ft.Row):
     def __init__(self, page: ft.Page):
         self.page = page
+        super().__init__()
 
     def duration(self):
         duration = int(datetime.now().timestamp()) + int(EXPIRATION_TIME)

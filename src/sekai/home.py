@@ -4,14 +4,21 @@ import flet as ft
 from security import VerifyToken
 from logger import log
 
+from components.table import Table
+
 class Home(ft.Container, VerifyToken):
     def __init__(self, page: ft.Page):
         self.page = page
+        self.body = [
+            {'X': 'John', 'Y': 'Doe'},
+            {'X': 'Jane', 'Y': 'Doe'}
+        ]
         self.content = ft.Container(
             ft.Column(
                 [
                     ft.Text('Home', size = 40),
-                    ft.ElevatedButton('Go Tables', on_click=self.go_tables),
+                    Table(self.body),
+                    ft.ElevatedButton('update_table', on_click=self.update_table)
                 ]
             ),
             alignment=ft.alignment.top_left,
@@ -20,18 +27,20 @@ class Home(ft.Container, VerifyToken):
             border_radius=10
         )
 
-        super().__init__(
+        ft.Container.__init__(
+            self,
             content=self.content,
             expand=True
         )
 
-    def build(self):
-        self.get_token(self.page)
-        return super().build()
-    
-    def before_update(self):
-        self.validate_token(self.page)
-        return super().before_update()
+        VerifyToken.__init__(
+            self,
+            page=self.page
+        )
+
+    def update_table(self, e):
+        self.body.append({'X': 'Test', 'Y': 'Sucesso'})
+        self.page.update()
 
     def go_tables(self, e):
         try:

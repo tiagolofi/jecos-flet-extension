@@ -10,7 +10,7 @@ load_dotenv()
 
 DEFAULT_HOME = os.getenv('DEFAULT_HOME')
 
-class Login(ft.Container):
+class Login(ft.Container, Jwt):
     def __init__(self, page: ft.Page):
         self.page = page
         self.page.horizontal_alignment = 'CENTER'
@@ -18,9 +18,7 @@ class Login(ft.Container):
         self.user = ft.TextField('', label='username', hint_text='type your username')
         self.pwd = ft.TextField('', label='password', password=True, can_reveal_password=True)
         self.submit = ft.ElevatedButton('login', icon=ft.Icons.LOGIN, on_click=self.on_submit_click)
-        
-        self.jwt = Jwt(self.page)
-        
+                
         self.content = ft.Container(
             content=ft.Column(
                 [
@@ -38,14 +36,20 @@ class Login(ft.Container):
             bgcolor=ft.Colors.BLUE_ACCENT_700
         )
 
-        super().__init__(
+        ft.Container.__init__(
+            self,
             content=self.content
+        )
+
+        Jwt.__init__(
+            self,
+            page=self.page
         )
 
     def on_submit_click(self, e):
         if self.user.value == 'admin':
             if self.pwd.value != "" and self.pwd.value == '1234':
-                self.jwt.add_token_local_storage(self.user.value)
+                self.add_token_local_storage(self.user.value)
                 self.page.go(DEFAULT_HOME)
                 # TODO: implementar chamada para serviço de autenticação e autorização
             else:

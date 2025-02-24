@@ -5,7 +5,7 @@ from web import Templates, Panel
 from exceptions import PageNotFoundError, TokenNoneError
 from logger import log
 
-from sekai import Home, Tables
+from sekai import Home
 
 from security import NotFound, Login
 
@@ -22,19 +22,17 @@ class App(ft.SafeArea):
         page.dark_theme = ft.Theme(color_scheme_seed=ft.Colors.BLUE)
 
         # sec components
-        self.login = Panel(LOGIN_URL, Login(self.page), ('CENTER', 'CENTER'))
+        self.login = Panel(LOGIN_URL, Login(self.page))
         self.not_found = Panel(NOT_FOUND_URL, NotFound(self.page))
         
         # web components
         self.home = Panel('/home', Home(self.page))
-        self.tables = Panel('/tables', Tables(self.page))
 
         # config templates
-        self.templates = Templates(page) 
+        self.templates = Templates(page)
         self.templates.add(self.login.get_view())
         self.templates.add(self.home.get_view())
         self.templates.add(self.not_found.get_view())
-        self.templates.add(self.tables.get_view()) 
 
         super().__init__(
             content=ft.View('/', [])
@@ -68,8 +66,8 @@ def main(page: ft.Page):
             view.clean()
             log.error(error.message)
 
-        page.views.append(view) 
-        page.go(view.route)
+        page.views.append(view)
+        page.go(view.route) 
         page.update()
 
     page.on_route_change = route_change
