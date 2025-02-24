@@ -65,9 +65,10 @@ def main(page: ft.Page):
             log.error(error.message)
         except TokenNoneError as error:
             view = app.nav(LOGIN_URL)
+            view.clean()
             log.error(error.message)
 
-        page.views.append(view)
+        page.views.append(view) 
         page.go(view.route)
         page.update()
 

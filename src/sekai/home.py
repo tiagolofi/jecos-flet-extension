@@ -11,10 +11,10 @@ class Home(ft.Container, VerifyToken):
             ft.Column(
                 [
                     ft.Text('Home', size = 40),
-                    ft.ElevatedButton('Go Tables', on_click=self.go_tables)
+                    ft.ElevatedButton('Go Tables', on_click=self.go_tables),
                 ]
             ),
-            alignment=ft.alignment.center,
+            alignment=ft.alignment.top_left,
             margin=10,
             padding=10,
             border_radius=10
