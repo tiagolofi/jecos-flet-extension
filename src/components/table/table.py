@@ -27,6 +27,8 @@ class Table(ft.DataTable):
             columns=self.columns,
             rows=self.rows,
             border_radius=10,
+            border=ft.border.all(1, "white"),
+            sort_column_index=0,
             sort_ascending=True,
             heading_text_style=ft.TextStyle(weight=ft.FontWeight.BOLD)
         )

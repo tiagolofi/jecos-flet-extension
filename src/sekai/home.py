@@ -4,7 +4,7 @@ import flet as ft
 from security import VerifyToken
 from logger import log
 
-from components.table import Table
+from components import Table, SelectBox
 
 import os
 from dotenv import load_dotenv
@@ -28,12 +28,21 @@ class Home(ft.Container, VerifyToken):
             }
         ).json()
 
-        clientes = [ft.DropdownOption(key=i['nome'], content=ft.Text(value=i['nome'])) for i in clientes]
+        clientes = [i['nome'] for i in clientes]
 
         self.container_content_columm = ft.Column(
             [
-                ft.Text('Indicadores por Grupo', size = 40),
-                ft.Dropdown(value = 'Grupos', options = clientes, on_change = self.get_indicadores)          
+                ft.Row(
+                    [
+                        ft.Text('CTA+ Sistema de Pontos', size = 30, text_align=ft.TextAlign.CENTER)
+                    ], alignment=ft.alignment.center
+                ),
+                ft.Row(
+                    [
+                        ft.Text('Indicadores por Grupo', size = 28),
+                        ft.Dropdown(label = 'Grupos', options = SelectBox(clientes).list(), on_change = self.get_indicadores)
+                    ]
+                )
             ]
         )
 
@@ -68,6 +77,9 @@ class Home(ft.Container, VerifyToken):
                 'grupo': e.control.value
             }
         ).json()
+
+        if len(self.container_content_columm.controls) > 2:
+            self.container_content_columm.controls.pop()
 
         self.container_content_columm.controls.append(Table([indicadores]))
         self.update()
