@@ -67,8 +67,6 @@ class Home(ft.Container, VerifyToken):
                 'grupo': e.control.value
             }
         ).json()
-
-        log.info(indicadores)
-
+        
         self.container_content_columm.controls.append(Table([indicadores]))
         self.update()
