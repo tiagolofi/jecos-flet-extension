@@ -21,7 +21,7 @@ class Home(ft.Container, VerifyToken):
         self.page = page
 
         clientes = requests.get(
-            URL, 
+            URL + '/consulta/clientes', 
             headers={
                 'X-Token-Ctaa': TOKEN,
                 'accept': 'application/json'
@@ -30,15 +30,15 @@ class Home(ft.Container, VerifyToken):
 
         clientes = [ft.DropdownOption(key=i['nome'], content=ft.Text(value=i['nome'])) for i in clientes]
 
-        self.dropdown = ft.Dropdown(value = 'Grupos', options = clientes)
+        self.container_content_columm = ft.Column(
+            [
+                ft.Text('Home', size = 40),
+                ft.Dropdown(value = 'Grupos', options = clientes, on_change = self.get_indicadores)            
+            ]
+        )
 
         self.content = ft.Container(
-            ft.Column(
-                [
-                    ft.Text('Home', size = 40),
-                    self.dropdown,
-                ]
-            ),
+            self.container_content_columm,
             alignment=ft.alignment.top_left,
             margin=10,
             padding=10,
@@ -55,3 +55,20 @@ class Home(ft.Container, VerifyToken):
             self,
             page=self.page
         )
+
+    def get_indicadores(self, e):
+        indicadores = requests.post(
+            URL + '/consulta/indicadores',
+            headers={
+                'X-Token-Ctaa': TOKEN,
+                'accept': 'application/json'
+            },
+            json={
+                'grupo': e.control.value
+            }
+        ).json()
+
+        log.info(indicadores)
+
+        self.container_content_columm.controls.append(Table([indicadores]))
+        self.update()
