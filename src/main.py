@@ -26,7 +26,7 @@ class App(ft.SafeArea):
         self.not_found = Panel(NOT_FOUND_URL, NotFound(self.page))
         
         # web components
-        self.home = Panel('/home', Home(self.page))
+        self.home = Panel('/home', Home(self.page), ('TOP', 'LEFT'))
 
         # config templates
         self.templates = Templates(page)
@@ -45,7 +45,7 @@ class App(ft.SafeArea):
     def nav(self, route) -> ft.View:
         return self.templates.navigate(route)
 
-def main(page: ft.Page): 
+def main(page: ft.Page):
 
     app = App(page)
     page.add(app)

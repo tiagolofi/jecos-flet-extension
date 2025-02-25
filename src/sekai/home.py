@@ -6,19 +6,37 @@ from logger import log
 
 from components.table import Table
 
+import os
+from dotenv import load_dotenv
+
+import requests
+
+load_dotenv()
+
+TOKEN = os.getenv('TOKEN_CTAA')
+URL = os.getenv('URL')
+
 class Home(ft.Container, VerifyToken):
     def __init__(self, page: ft.Page):
         self.page = page
-        self.body = [
-            {'X': 'John', 'Y': 'Doe'},
-            {'X': 'Jane', 'Y': 'Doe'}
-        ]
+
+        clientes = requests.get(
+            URL, 
+            headers={
+                'X-Token-Ctaa': TOKEN,
+                'accept': 'application/json'
+            }
+        ).json()
+
+        clientes = [ft.DropdownOption(key=i['nome'], content=ft.Text(value=i['nome'])) for i in clientes]
+
+        self.dropdown = ft.Dropdown(value = 'Grupos', options = clientes)
+
         self.content = ft.Container(
             ft.Column(
                 [
                     ft.Text('Home', size = 40),
-                    Table(self.body),
-                    ft.ElevatedButton('update_table', on_click=self.update_table)
+                    self.dropdown,
                 ]
             ),
             alignment=ft.alignment.top_left,
@@ -37,13 +55,3 @@ class Home(ft.Container, VerifyToken):
             self,
             page=self.page
         )
-
-    def update_table(self, e):
-        self.body.append({'X': 'Test', 'Y': 'Sucesso'})
-        self.page.update()
-
-    def go_tables(self, e):
-        try:
-            self.page.go('/tables')
-        except AttributeError as error:
-            log.error(error)

@@ -15,7 +15,7 @@ class Table(ft.DataTable):
         for i in data:
             cells = []
             for v in i.values():
-                cells.append(ft.DataCell(ft.Text(v)))
+                cells.append(ft.DataCell(ft.Text(str(v))))
 
             self.rows.append(
                 ft.DataRow(
