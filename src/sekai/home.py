@@ -32,8 +32,8 @@ class Home(ft.Container, VerifyToken):
 
         self.container_content_columm = ft.Column(
             [
-                ft.Text('Home', size = 40),
-                ft.Dropdown(value = 'Grupos', options = clientes, on_change = self.get_indicadores)            
+                ft.Text('Indicadores por Grupo', size = 40),
+                ft.Dropdown(value = 'Grupos', options = clientes, on_change = self.get_indicadores)          
             ]
         )
 
@@ -57,6 +57,7 @@ class Home(ft.Container, VerifyToken):
         )
 
     def get_indicadores(self, e):
+
         indicadores = requests.post(
             URL + '/consulta/indicadores',
             headers={
@@ -67,6 +68,6 @@ class Home(ft.Container, VerifyToken):
                 'grupo': e.control.value
             }
         ).json()
-        
+
         self.container_content_columm.controls.append(Table([indicadores]))
         self.update()
