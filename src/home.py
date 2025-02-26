@@ -40,7 +40,7 @@ class Home(ft.Container, VerifyToken):
                 ft.Row(
                     [
                         ft.Text('Indicadores por Grupo', size = 28),
-                        ft.Dropdown(label = 'Grupos', options = SelectBox(clientes).list(), on_change = self.get_indicadores)
+                        SelectBox('Grupos', clientes, self.get_indicadores).build()
                     ]
                 )
             ]

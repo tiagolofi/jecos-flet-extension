@@ -5,7 +5,7 @@ from web import Templates, Panel
 from exceptions import PageNotFoundError, TokenNoneError
 from logger import log
 
-from sekai import Home
+from home import Home
 
 from security import NotFound, Login
 

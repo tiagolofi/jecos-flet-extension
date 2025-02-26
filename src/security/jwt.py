@@ -20,8 +20,7 @@ class Jwt(ft.Row):
         super().__init__()
 
     def duration(self):
-        duration = int(datetime.now().timestamp()) + int(EXPIRATION_TIME)
-        return duration
+        return int(datetime.now().timestamp()) + int(EXPIRATION_TIME)
 
     def add_token_local_storage(self, user: str):
         user_info = '{' + f'''
