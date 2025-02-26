@@ -1,7 +1,7 @@
 
 import flet as ft
 
-from web import Templates, Panel
+from layout import Templates, Panel
 from exceptions import PageNotFoundError, TokenNoneError
 from logger import log
 
@@ -29,13 +29,14 @@ class App(ft.SafeArea):
         self.home = Panel('/home', Home(self.page), ('TOP', 'LEFT'))
 
         # config templates
-        self.templates = Templates(page)
+        self.templates = Templates(self.page)
         self.templates.add(self.login.get_view())
         self.templates.add(self.home.get_view())
         self.templates.add(self.not_found.get_view())
 
         super().__init__(
-            content=ft.View('/', [])
+            content=ft.View('/', []),
+            expand=True
         )
 
     def init(self):
@@ -67,7 +68,7 @@ def main(page: ft.Page):
             log.error(error.message)
 
         page.views.append(view)
-        page.go(view.route) 
+        page.go(view.route)
         page.update()
 
     page.on_route_change = route_change

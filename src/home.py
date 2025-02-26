@@ -1,15 +1,16 @@
 
 import flet as ft
 
-from security import VerifyToken
 from logger import log
-
+from security import VerifyToken
 from components import Table, SelectBox
+from layout import Sidebar
 
 import os
-from dotenv import load_dotenv
+import time
 
 import requests
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -28,6 +29,9 @@ class Home(ft.Container, VerifyToken):
             }
         ).json()
 
+        self.sidebar = Sidebar(self.page, ['Home', 'Tables', 'FAQ']).build()
+        self.page.add(self.sidebar)
+
         clientes = [i['nome'] for i in clientes]
 
         self.container_content_columm = ft.Column(
@@ -42,6 +46,9 @@ class Home(ft.Container, VerifyToken):
                         ft.Text('Indicadores por Grupo', size = 28),
                         SelectBox('Grupos', clientes, self.get_indicadores).build()
                     ]
+                ),
+                ft.Row(
+                    [ft.ElevatedButton('Sidebar', on_click=lambda e: self.page.open(self.sidebar))]
                 )
             ]
         )
@@ -78,8 +85,13 @@ class Home(ft.Container, VerifyToken):
             }
         ).json()
 
-        if len(self.container_content_columm.controls) > 2:
+        if len(self.container_content_columm.controls) > 3:
             self.container_content_columm.controls.pop()
 
-        self.container_content_columm.controls.append(Table([indicadores]))
+        self.container_content_columm.controls.append(ft.Row([ft.ProgressRing()], alignment=ft.alignment.center)) 
+        self.update()
+
+        time.sleep(2)
+        self.container_content_columm.controls.pop()
+        self.container_content_columm.controls.append(ft.Row([Table([indicadores])], alignment=ft.alignment.center))
         self.update()

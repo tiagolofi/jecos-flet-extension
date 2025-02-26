@@ -12,6 +12,9 @@ class Templates():
     def add(self, view: ft.View) -> None:
         self.views.append(view)
 
+    def routes(self):
+        return [i.route for i in self.views]
+
     def navigate(self, route: str) -> ft.View:
         '''
         params:
